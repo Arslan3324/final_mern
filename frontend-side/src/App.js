@@ -3,6 +3,7 @@ import { Button, Divider, Input,List,Modal, Typography } from 'antd';
 import axios from "axios"
 
 
+
 function App() {
   const [value, setValue] = useState("")
   const [addModelOpen,setAddModelOpen]=useState(false)
@@ -67,6 +68,21 @@ function App() {
 
   }
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+    
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <div className="App">
       <br />
@@ -125,17 +141,24 @@ function App() {
     <>
     <Divider orientation="left"></Divider>
   
-    <div>
+    <div className='bookmarked'>
       <ul style={{border:"1px solid gray",borderRadius:"10px",margin:"20px"}}>
         {
           bookmarks.length > 0 ? bookmarks.map(itm=> 
             { return <div key={itm._id} style={{padding:"15px",display:"flex",justifyContent:'space-between'}}> 
                <div>
+                <h2>{itm.name[0]}</h2>
                 <span style={{fontSize:"22px",margin:"8px",paddingRight:"20px" }}> {itm.name}</span> {itm.url}
                </div>
               <div >
-                <Button type="primary" onClick={()=>updateBookmark(itm._id)}> Edit</Button>
-                <Button type='primary' danger onClick={()=>deleteBookmark(itm._id)}> Delete</Button>
+                {/* <Button type="primary" onClick={()=>updateBookmark(itm._id)}> Edit</Button> */}
+                {/* <Button type='primary' danger onClick={()=>deleteBookmark(itm._id)}> Delete</Button> */}
+                <Button type="primary" onClick={showModal}>
+        Delete
+      </Button>
+      <Modal title="Delete modal" visible={isModalVisible} onOk={()=>deleteBookmark(itm._id)} onCancel={handleCancel}>
+        <h2>Are you sure?</h2>
+      </Modal>
               </div>
             </div>}
             ) : ""
@@ -143,6 +166,8 @@ function App() {
       </ul>
       
     </div>
+
+    
 
     <Divider orientation="left"></Divider>
     
