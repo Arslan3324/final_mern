@@ -4,13 +4,13 @@ const path = require('path')
 
 const add = async(req,res)=>{
 
-    await Bookmark.create(req.body)
+    const create = await Bookmark.create(req.body)
     res.send({status:"success"})
 }
 
 
-const getbookmark = (req,res)=>{
-    const bookmarks=await Bookmark.find()
+const getbookmark = async(req,res)=>{
+    const bookmarks = await Bookmark.find()
     res.json({bookmarks:bookmarks})
 }
 
@@ -22,7 +22,7 @@ const getwithname = async(req,res)=>{
 
 }
 
-const deletebookmark = (req,res)=>{
+const deletebookmark = async(req,res)=>{
     const id = req.params.id
     await Bookmark.remove({_id:id})
     res.json({status:"success"})
@@ -30,5 +30,8 @@ const deletebookmark = (req,res)=>{
 
 
 module.exports = {
-    add
+    add,
+    getbookmark,
+    getwithname,
+    deletebookmark
 }
